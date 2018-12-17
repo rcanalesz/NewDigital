@@ -19,7 +19,7 @@ import android.util.Log;
 
 import android.content.Context;
 
-public class GetReaderActivity extends Activity {
+public class Connection extends Activity {
 
     private ReaderCollection readers;
 	private Bundle savedInstanceState = null;
