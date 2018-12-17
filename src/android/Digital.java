@@ -41,14 +41,16 @@ public class Digital extends CordovaPlugin {
         Context context = cordova.getActivity().getApplicationContext();
 
 
-        if ("capturar".equals(action)) {
-            /*callbackContext = newCallbackContext;
+        if ("connect".equals(action)) {
+            callbackContext = newCallbackContext;
             cordova.setActivityResultCallback (this);
 
-            Intent intent = new Intent(context, NewActivity.class);
-            this.cordova.getActivity().startActivityForResult(intent, 1);
+            Log.i(TAG, "connect");
 
-            return true;*/
+            //Intent intent = new Intent(context, NewActivity.class);
+            //this.cordova.getActivity().startActivityForResult(intent, 1);
+
+            return true;
         }
 
 

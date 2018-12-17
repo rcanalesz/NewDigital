@@ -4,9 +4,9 @@ var digital = {
       var options = {};
       cordova.exec(success, error, 'Digital', 'capturar', [options]);
     },
-    conectar: function (success, error) {
+    connect: function (success, error) {
       var options = {};
-      cordova.exec(success, error, 'Digital', 'conectar', [options]);
+      cordova.exec(success, error, 'Digital', 'connect', [options]);
     }
   }
   
