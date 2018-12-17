@@ -47,8 +47,9 @@ public class Digital extends CordovaPlugin {
 
             Log.i(TAG, "connect");
 
-            //Intent intent = new Intent(context, NewActivity.class);
-            //this.cordova.getActivity().startActivityForResult(intent, 1);
+
+            Intent i = new Intent(context, Connection.class);
+            startActivityForResult(i, 1);
 
             return true;
         }
@@ -59,6 +60,22 @@ public class Digital extends CordovaPlugin {
         callbackContext.error("No existe metodo: " + action);
         Log.i(TAG, "error");
         return false;
+    }
+
+
+
+
+
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Log.i(TAG, "ACTIVITY RESUUUULT");
+
+		if (data == null)
+		{
+			displayReaderNotFound();
+			return;
+		}
     }
 
 

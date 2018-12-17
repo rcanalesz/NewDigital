@@ -18,7 +18,37 @@
     </config-file>
 
 
+
+
+
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+        <activity android:label="Connection" android:name="cl.entel.plugins.digital.Connection"></activity>
+    </config-file>
+
     <source-file src="src/android/Digital.java" target-dir="src/cl/entel/plugins/digital" />
+    <source-file src="src/android/Connection.java" target-dir="src/cl/entel/plugins/digital" />
+    <source-file src="src/android/connection.xml" target-dir="res/layout"/>
+
+
+
+    <framework src="src/android/file.gradle" custom="true" type="gradleReference" />
+    
+    <resource-file src="lib/dpuareu.jar" target="libs/dpuareu.jar"/>
+    <resource-file src="lib/armeabi/libdpfj.so" target="libs/armeabi/libdpfj.so"/>
+    <resource-file src="lib/armeabi/libdpfpdd_tcd58.so" target="libs/armeabi/libdpfpdd_tcd58.so"/>
+    <resource-file src="lib/armeabi/libdpfpdd.so" target="libs/armeabi/libdpfpdd.so"/>
+    <resource-file src="lib/armeabi/libdpfpdd5000.so" target="libs/armeabi/libdpfpdd5000.so"/>
+    <resource-file src="lib/armeabi/libdpfr6.so" target="libs/armeabi/libdpfr6.so"/>
+    <resource-file src="lib/armeabi/libdpfr7.so" target="libs/armeabi/libdpfr7.so"/>
+    <resource-file src="lib/armeabi/libdpuareu_jni.so" target="libs/armeabi/libdpuareu_jni.so"/>
+    <resource-file src="lib/armeabi/libdpuvc.so" target="libs/armeabi/libdpuvc.so"/>
+
+
+
+
+
+
       
   </platform>
 </plugin>

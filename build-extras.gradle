@@ -1,0 +1,10 @@
+android {
+    defaultConfig {
+        applicationId "com.outsystemsenterprise.entel.PEMayorista"
+    }
+
+   packagingOptions {
+       exclude 'META-INF/NOTICE'
+       exclude 'META-INF/LICENSE'
+   }
+}

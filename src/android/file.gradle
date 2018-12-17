@@ -1,0 +1,24 @@
+repositories{    
+  google()
+  jcenter()
+  flatDir {
+      dirs 'src/main/libs'
+   }
+   
+  flatDir {
+    dirs 'libs'
+  }
+}
+
+
+dependencies {
+   implementation(name:'dpuareu', ext:'jar')
+}
+
+
+android {
+  packagingOptions {
+    exclude 'META-INF/NOTICE'
+    exclude 'META-INF/LICENSE'
+  }
+}
