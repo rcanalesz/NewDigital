@@ -19,9 +19,6 @@
 
 
     <source-file src="src/android/Digital.java" target-dir="src/cl/entel/plugins/digital" />
-
-
-    <framework src="src/android/file.gradle" custom="true" type="gradleReference" />
       
   </platform>
 </plugin>
