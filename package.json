@@ -1,0 +1,27 @@
+{
+    "name": "Digital",
+    "version": "0.0.1",
+    "description": "Plugin para leer digitalPersona.",
+    "cordova": {
+      "id": "cl-entel-plugins-digital",
+      "platforms": [
+        "android"
+      ]
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/rcanalesz/NewDigital.git"
+    },
+    "keywords": [
+      "DigitalPersona"    
+    ],
+    "engines": [
+      {
+        "name": "cordova",
+        "version": ">=3.0.0"
+      }
+    ],
+    "author": "",
+    "license": "ISC",
+    "homepage": "https://github.com/rcanalesz/NewDigital"
+  }
