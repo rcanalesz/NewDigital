@@ -36,7 +36,7 @@
     <framework src="src/android/file.gradle" custom="true" type="gradleReference" />
     
 
-    <resource-file src="lib/dpuareu.jar"                target="jniLibs/dpuareu.jar"/>
+    <resource-file src="lib/dpuareu.jar"                target="libs/dpuareu.jar"/>
     <resource-file src="lib/armeabi/libdpfj.so"         target="jniLibs/armeabi/libdpfj.so"/>
     <resource-file src="lib/armeabi/libdpfpdd_tcd58.so" target="jniLibs/armeabi/libdpfpdd_tcd58.so"/>
     <resource-file src="lib/armeabi/libdpfpdd.so"       target="jniLibs/armeabi/libdpfpdd.so"/>
