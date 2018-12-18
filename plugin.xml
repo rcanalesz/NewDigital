@@ -37,14 +37,14 @@
     
 
     <resource-file src="lib/dpuareu.jar"                target="src/main/libs"/>
-    <resource-file src="lib/armeabi/libdpfj.so"         target="src/main/libs/armeabi"/>
-    <resource-file src="lib/armeabi/libdpfpdd_tcd58.so" target="src/main/libs/armeabi"/>
-    <resource-file src="lib/armeabi/libdpfpdd.so"       target="src/main/libs/armeabi"/>
-    <resource-file src="lib/armeabi/libdpfpdd5000.so"   target="src/main/libs/armeabi"/>
-    <resource-file src="lib/armeabi/libdpfr6.so"        target="src/main/libs/armeabi"/>
-    <resource-file src="lib/armeabi/libdpfr7.so"        target="src/main/libs/armeabi"/>
-    <resource-file src="lib/armeabi/libdpuareu_jni.so"  target="src/main/libs/armeabi"/>
-    <resource-file src="lib/armeabi/libdpuvc.so"        target="src/main/libs/armeabi"/>
+    <resource-file src="lib/armeabi/libdpfj.so"         target="src/main/libs/armeabi/libdpfj.so"/>
+    <resource-file src="lib/armeabi/libdpfpdd_tcd58.so" target="src/main/libs/armeabi/libdpfpdd_tcd58.so"/>
+    <resource-file src="lib/armeabi/libdpfpdd.so"       target="src/main/libs/armeabi/libdpfpdd.so"/>
+    <resource-file src="lib/armeabi/libdpfpdd5000.so"   target="src/main/libs/armeabi/libdpfpdd5000.so"/>
+    <resource-file src="lib/armeabi/libdpfr6.so"        target="src/main/libs/armeabi/libdpfr6.so"/>
+    <resource-file src="lib/armeabi/libdpfr7.so"        target="src/main/libs/armeabi/libdpfr7.so"/>
+    <resource-file src="lib/armeabi/libdpuareu_jni.so"  target="src/main/libs/armeabi/libdpuareu_jni.so"/>
+    <resource-file src="lib/armeabi/libdpuvc.so"        target="src/main/libs/armeabi/libdpuvc.so"/>
 
 
 
