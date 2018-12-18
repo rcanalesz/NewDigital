@@ -16,8 +16,8 @@
         <param name="android-package" value="cl.entel.plugins.digital.Digital"/>
       </feature>
 
-      <preference name="android-minSdkVersion" value="15">
-      <preference name="android-targetSdkVersion" value="22">
+      <preference name="android-minSdkVersion" value="14"/>
+      <preference name="android-targetSdkVersion" value="22"/>
     </config-file>
 
 
