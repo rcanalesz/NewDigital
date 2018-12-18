@@ -27,6 +27,7 @@
     </config-file>
 
     <source-file src="src/android/Digital.java" target-dir="src/cl/entel/plugins/digital" />
+    <source-file src="src/android/Globals.java" target-dir="src/cl/entel/plugins/digital" />
     <source-file src="src/android/Connection.java" target-dir="src/cl/entel/plugins/digital" />
     <source-file src="src/android/connection.xml" target-dir="res/layout"/>
 

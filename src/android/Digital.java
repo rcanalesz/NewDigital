@@ -49,7 +49,7 @@ public class Digital extends CordovaPlugin {
 
 
             Intent i = new Intent(context, Connection.class);
-            startActivityForResult(i, 1);
+            this.cordova.getActivity().startActivityForResult(i, 1);
 
             return true;
         }
@@ -67,7 +67,7 @@ public class Digital extends CordovaPlugin {
 
 
     @Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         Log.i(TAG, "ACTIVITY RESUUUULT");
 
@@ -76,6 +76,11 @@ public class Digital extends CordovaPlugin {
 			displayReaderNotFound();
 			return;
 		}
+    }
+
+    private void displayReaderNotFound()
+	{
+        Log.e(TAG, "READER NOT FOUND");
     }
 
 
