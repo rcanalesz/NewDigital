@@ -11,15 +11,15 @@
 
   <platform name="android">
 
+
+    <preference name="android-minSdkVersion" value="15" />
+    <preference name="android-targetSdkVersion" value="22" />
+
     <config-file target="config.xml" parent="/*">
       <feature name="Digital">
         <param name="android-package" value="cl.entel.plugins.digital.Digital"/>
       </feature>
     </config-file>
-
-
-
-
 
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
