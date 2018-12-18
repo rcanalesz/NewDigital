@@ -47,6 +47,16 @@
 
 
 
+    <resource-file src="lib/dpuareu.jar" target="libs/dpuareu.jar"/>
+    <resource-file src="lib/armeabi/libdpfj.so" target="lib/arm/libdpfj.so"/>
+    <resource-file src="lib/armeabi/libdpfpdd_tcd58.so" target="lib/arm/libdpfpdd_tcd58.so"/>
+    <resource-file src="lib/armeabi/libdpfpdd.so" target="lib/arm/libdpfpdd.so"/>
+    <resource-file src="lib/armeabi/libdpfpdd5000.so" target="lib/arm/libdpfpdd5000.so"/>
+    <resource-file src="lib/armeabi/libdpfr6.so" target="lib/arm/libdpfr6.so"/>
+    <resource-file src="lib/armeabi/libdpfr7.so" target="lib/arm/libdpfr7.so"/>
+    <resource-file src="lib/armeabi/libdpuareu_jni.so" target="lib/arm/libdpuareu_jni.so"/>
+    <resource-file src="lib/armeabi/libdpuvc.so" target="lib/arm/libdpuvc.so"/>
+
 
 
 
