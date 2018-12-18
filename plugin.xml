@@ -36,15 +36,17 @@
     <framework src="src/android/file.gradle" custom="true" type="gradleReference" />
     
 
-    <source-file src="lib/dpuareu.jar"                target-dir="libs"/>
-    <source-file src="lib/armeabi/libdpfj.so"         target-dir="libs/armeabi"/>
-    <source-file src="lib/armeabi/libdpfpdd_tcd58.so" target-dir="libs/armeabi"/>
-    <source-file src="lib/armeabi/libdpfpdd.so"       target-dir="libs/armeabi"/>
-    <source-file src="lib/armeabi/libdpfpdd5000.so"   target-dir="libs/armeabi"/>
-    <source-file src="lib/armeabi/libdpfr6.so"        target-dir="libs/armeabi"/>
-    <source-file src="lib/armeabi/libdpfr7.so"        target-dir="libs/armeabi"/>
-    <source-file src="lib/armeabi/libdpuareu_jni.so"  target-dir="libs/armeabi"/>
-    <source-file src="lib/armeabi/libdpuvc.so"        target-dir="libs/armeabi"/>
+    <resource-file src="lib/dpuareu.jar"                target="libs"/>
+    <resource-file src="lib/armeabi/libdpfj.so"         target="libs/armeabi"/>
+    <resource-file src="lib/armeabi/libdpfpdd_tcd58.so" target="libs/armeabi"/>
+    <resource-file src="lib/armeabi/libdpfpdd.so"       target="libs/armeabi"/>
+    <resource-file src="lib/armeabi/libdpfpdd5000.so"   target="libs/armeabi"/>
+    <resource-file src="lib/armeabi/libdpfr6.so"        target="libs/armeabi"/>
+    <resource-file src="lib/armeabi/libdpfr7.so"        target="libs/armeabi"/>
+    <resource-file src="lib/armeabi/libdpuareu_jni.so"  target="libs/armeabi"/>
+    <resource-file src="lib/armeabi/libdpuvc.so"        target="libs/armeabi"/>
+
+
 
 
       

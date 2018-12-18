@@ -1,8 +1,6 @@
 android {
     defaultConfig {
         applicationId "com.outsystemsenterprise.entel.PEMayorista"
-
-        multiDexEnabled true
     }
 
    packagingOptions {
