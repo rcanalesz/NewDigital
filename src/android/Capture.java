@@ -51,20 +51,9 @@ public class Capture extends Activity {
         //setContentView(R.layout.activity_check_fingerprint);
 
 
-
-
-
-
         int image_view_id = getApplication().getResources().getIdentifier("bitmap_image", "id", package_name);
         m_imgView = (ImageView) findViewById(image_view_id);
         //m_imgView = (ImageView) findViewById(R.id.bitmap_image);
-
-
-
-
-
-
-        Log.i(LOG_TAG, "IMG VIEW ID : -- "  + Integer.toString(image_view_id) );
 
 
         if(m_imgView == null) { Log.i(LOG_TAG,"IMGVIEW null"); }
@@ -118,84 +107,84 @@ public class Capture extends Activity {
             return;
         }
 
-        // updates UI continuously
+        // updates UI continuously -- UI THREAD --
         m_timer = new CountDownTimer(250, 250) {
         public void onTick(long millisUntilFinished) { }
         public void onFinish() {
-        m_imgView.setImageBitmap(m_bitmap);
-        m_imgView.invalidate();
+            m_imgView.setImageBitmap(m_bitmap);
+            m_imgView.invalidate();
 
-        if (cap_result != null){
+            if (cap_result != null){
 
-            if (cap_result.quality != null){
+                if (cap_result.quality != null){
 
-                switch(cap_result.quality){
-                    case FAKE_FINGER:
-                        m_text_conclusion.setText("Fake finger");
-                        m_bitmap = null;
-                        break;
-                    case NO_FINGER:
-                        m_text_conclusion.setText("No finger");
-                        m_bitmap = null;
-                        break;
-                    case CANCELED:
-                        m_text_conclusion.setText("Capture cancelled");
-                        break;
-                    case TIMED_OUT:
-                         m_text_conclusion.setText("Capture timed out");
-                         break;
-                    case FINGER_TOO_LEFT:
-                         m_text_conclusion.setText("Finger too left");
-                         break;
-                    case FINGER_TOO_RIGHT:
-                         m_text_conclusion.setText("Finger too right");
-                         break;
-                    case FINGER_TOO_HIGH:
-                         m_text_conclusion.setText("Finger too high");
-                         break;
-                    case FINGER_TOO_LOW:
-                         m_text_conclusion.setText("Finger too low");
-                         break;
-                    case FINGER_OFF_CENTER:
-                         m_text_conclusion.setText("Finger off center");
-                         break;
-                    case SCAN_SKEWED:
-                         m_text_conclusion.setText("Scan skewed");
-                         break;
-                    case SCAN_TOO_SHORT:
-                         m_text_conclusion.setText("Scan too short");
-                         break;
-                    case SCAN_TOO_LONG:
-                         m_text_conclusion.setText("Scan too long");
-                         break;
-                    case SCAN_TOO_SLOW:
-                         m_text_conclusion.setText("Scan too slow");
-                         break;
-                    case SCAN_TOO_FAST:
-                         m_text_conclusion.setText("Scan too fast");
-                         break;
-                    case SCAN_WRONG_DIRECTION:
-                         m_text_conclusion.setText("Wrong direction");
-                         break;
-                    case READER_DIRTY:
-                         m_text_conclusion.setText("Reader dirty");
-                         break;
-                    case GOOD:
-                         m_text_conclusion.setText("");
-                         m_reset = true;
-                         compressImage();
-                         break;
-                    default:
-                         if (cap_result.image == null){
-                             m_text_conclusion.setText("An error occurred");
-                         }
+                    switch(cap_result.quality){
+                        case FAKE_FINGER:
+                            m_text_conclusion.setText("Fake finger");
+                            m_bitmap = null;
+                            break;
+                        case NO_FINGER:
+                            m_text_conclusion.setText("No finger");
+                            m_bitmap = null;
+                            break;
+                        case CANCELED:
+                            m_text_conclusion.setText("Capture cancelled");
+                            break;
+                        case TIMED_OUT:
+                            m_text_conclusion.setText("Capture timed out");
+                            break;
+                        case FINGER_TOO_LEFT:
+                            m_text_conclusion.setText("Finger too left");
+                            break;
+                        case FINGER_TOO_RIGHT:
+                            m_text_conclusion.setText("Finger too right");
+                            break;
+                        case FINGER_TOO_HIGH:
+                            m_text_conclusion.setText("Finger too high");
+                            break;
+                        case FINGER_TOO_LOW:
+                            m_text_conclusion.setText("Finger too low");
+                            break;
+                        case FINGER_OFF_CENTER:
+                            m_text_conclusion.setText("Finger off center");
+                            break;
+                        case SCAN_SKEWED:
+                            m_text_conclusion.setText("Scan skewed");
+                            break;
+                        case SCAN_TOO_SHORT:
+                            m_text_conclusion.setText("Scan too short");
+                            break;
+                        case SCAN_TOO_LONG:
+                            m_text_conclusion.setText("Scan too long");
+                            break;
+                        case SCAN_TOO_SLOW:
+                            m_text_conclusion.setText("Scan too slow");
+                            break;
+                        case SCAN_TOO_FAST:
+                            m_text_conclusion.setText("Scan too fast");
+                            break;
+                        case SCAN_WRONG_DIRECTION:
+                            m_text_conclusion.setText("Wrong direction");
+                            break;
+                        case READER_DIRTY:
+                            m_text_conclusion.setText("Reader dirty");
+                            break;
+                        case GOOD:
+                            m_text_conclusion.setText("Good Fingerprint");
+                            //m_reset = true;
+                            //compressImage();
+                            break;
+                        default:
+                            if (cap_result.image == null){
+                                m_text_conclusion.setText("An error occurred");
+                            }
+                    }
                 }
             }
-        }
 
-        if (!m_reset)
-            m_timer.start();
-        }
+            if (!m_reset)
+                m_timer.start();
+            }
         }.start();
 
         // loop capture on a separate thread to avoid freezing the UI
@@ -204,25 +193,26 @@ public class Capture extends Activity {
             @Override
             public void run()
             {
-               try {
+                try 
+                {
                     m_reset = false;
                     while (!m_reset)
                     {
                         cap_result = m_reader.Capture(Fid.Format.ANSI_381_2004, Reader.ImageProcessing.IMG_PROC_DEFAULT, 500, -1);
                         // an error occurred
                         if (cap_result == null || cap_result.image == null) continue;
-                           // save bitmap image locally
-                           m_bitmap = Globals.GetBitmapFromRaw(cap_result.image.getViews()[0].getImageData(), cap_result.image.getViews()[0].getWidth(), cap_result.image.getViews()[0].getHeight());
-                        }
-                    } catch (Exception e)
-                    {
-                        Log.w("UareUSampleJava", "error during capture: " + e.toString());
-                        m_sn = "";
-                        m_deviceName = "";
-                        onBackPressed();
+                            // save bitmap image locally
+                            m_bitmap = Globals.GetBitmapFromRaw(cap_result.image.getViews()[0].getImageData(), cap_result.image.getViews()[0].getWidth(), cap_result.image.getViews()[0].getHeight());
                     }
+                } catch (Exception e)
+                {
+                    Log.w("UareUSampleJava", "error during capture: " + e.toString());
+                    m_sn = "";
+                    m_deviceName = "";
+                    onBackPressed();
                 }
-            }).start();
+            }
+        }).start();
 
     }
 
