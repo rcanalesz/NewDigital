@@ -55,7 +55,7 @@ public class Capture extends Activity {
         //m_imgView = (ImageView) findViewById(R.id.bitmap_image);
 
 
-        Log.i(LOG_TAG, "IMG VIEW ID : -- " Integer.toString(image_view_id) );
+        Log.i(LOG_TAG, "IMG VIEW ID : -- "  + Integer.toString(image_view_id) );
 
 
         if(m_imgView == null) { Log.i(LOG_TAG,"IMGVIEW null"); }
