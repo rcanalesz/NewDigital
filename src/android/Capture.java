@@ -57,7 +57,8 @@ public class Capture extends Activity {
         
         m_bitmap = Globals.GetLastBitmap();
         //if (m_bitmap == null) m_bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.black);
-        m_imgView.setImageBitmap(m_bitmap);
+        
+        if (m_bitmap != null) m_imgView.setImageBitmap(m_bitmap);
 
         m_sn = getIntent().getExtras().getString("SerialNumber");
 
