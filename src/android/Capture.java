@@ -1,7 +1,5 @@
 package cl.entel.plugins.digital;
 
-import cl.entel.plugins.digital.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
