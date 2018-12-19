@@ -54,6 +54,9 @@ public class Capture extends Activity {
         m_imgView = (ImageView) findViewById(getApplication().getResources().getIdentifier("bitmap_image", "id", package_name));
         //m_imgView = (ImageView) findViewById(R.id.bitmap_image);
 
+        if(m_imgView == null) { Log.i(LOG_TAG,"IMGVIEW null"); }
+        else { Log.i(LOG_TAG,"IMGVIEW not null"); }
+
         
         m_bitmap = Globals.GetLastBitmap();
         //if (m_bitmap == null) m_bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.black);
