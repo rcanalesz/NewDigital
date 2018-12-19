@@ -92,8 +92,8 @@ public class Digital extends CordovaPlugin {
             Log.i(TAG, "capture");
 
 
-            Intent intent = new Intent(context, Capture.class); 
-            intent.putExtra("SerialNumber",m_sn);
+            Intent i = new Intent(context, Capture.class); 
+            i.putExtra("SerialNumber",m_sn);
             this.cordova.getActivity().startActivityForResult(i, SECOND_SCAN);
 
 

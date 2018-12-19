@@ -44,16 +44,30 @@ public class Capture extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_check_fingerprint);
 
-        m_imgView = (ImageView) findViewById(R.id.bitmap_image);
+
+        String package_name = getApplication().getPackageName();
+        setContentView(getApplication().getResources().getIdentifier("connection", "layout", package_name));
+   
+
+
+        m_imgView = (ImageView) findViewById(getApplication().getResources().getIdentifier("bitmap_image", "id", package_name));
+        //m_imgView = (ImageView) findViewById(R.id.bitmap_image);
+
+        
         m_bitmap = Globals.GetLastBitmap();
         //if (m_bitmap == null) m_bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.black);
         m_imgView.setImageBitmap(m_bitmap);
 
         m_sn = getIntent().getExtras().getString("SerialNumber");
 
-        m_text_conclusion = (TextView) findViewById(R.id.tvTitle);
+
+
+        m_text_conclusion = (TextView) findViewById(getApplication().getResources().getIdentifier("tvTitle", "id", package_name));
+        //m_text_conclusion = (TextView) findViewById(R.id.tvTitle);
+
+
+
         if(m_sn != null){
             capture();
         }else{
