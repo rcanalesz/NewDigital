@@ -20,7 +20,7 @@
         android:layout_marginTop="77dp" 
         android:text="Coloque el dedo..."/>
 
-    <ImageView
+    <ImageView xmlns:android="http://schemas.android.com/apk/res/android" 
         android:id="@+id/bitmap_image"
         android:layout_width="192dp"
         android:layout_height="222dp"
