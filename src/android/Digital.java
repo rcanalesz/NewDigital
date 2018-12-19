@@ -175,7 +175,7 @@ public class Digital extends CordovaPlugin {
 		Globals.getInstance().enableCamera();
 
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				this);
+				cordova.getActivity().getApplicationContext());
 
 		alertDialogBuilder.setTitle("Reader Not Found");
 
@@ -199,7 +199,6 @@ public class Digital extends CordovaPlugin {
     protected void CheckDevice() {
 		try {
 			m_reader.Open(Priority.EXCLUSIVE);
-			setButtonsEnabled(true);
             
             if(m_reader.GetCapabilities().can_capture){ Log.i(TAG, "Can capture "); }
             else{ Log.i(TAG, "Cannot capture ");}
@@ -232,7 +231,7 @@ public class Digital extends CordovaPlugin {
 	    				}                
 	    			}                 
 	    			else {
-					setButtonsEnabled(false);
+					//setButtonsEnabled(false);
 	    			}
 	    		}
 	    	}
