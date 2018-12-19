@@ -18,6 +18,7 @@ import com.digitalpersona.uareu.dpfpddusbhost.DPFPDDUsbException;
 
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -166,8 +167,8 @@ public class Digital extends CordovaPlugin {
 			break;
 
         case SECOND_SCAN:
-            byteArray = getIntent().getByteArrayExtra("bitmap");
-            Log.i(LOG_TAG,"byteArray: "+byteArray);
+            byteArray = data.getByteArrayExtra("bitmap");
+            Log.i(TAG,"byteArray: "+byteArray);
             bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                 		
 			break;
