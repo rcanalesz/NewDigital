@@ -26,21 +26,16 @@
 
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
-        <activity android:label="Connection" android:name="cl.entel.plugins.digital.Connection">
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />                
-                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
-                <action android:name="android.hardware.usb.action.USB_DEVICE_DETACHED" />
-                <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:label="Connection" android:name="cl.entel.plugins.digital.Connection"></activity>
+        <activity android:label="Capture" android:name="cl.entel.plugins.digital.Capture"></activity>
     </config-file>
 
     <source-file src="src/android/Digital.java" target-dir="src/cl/entel/plugins/digital" />
     <source-file src="src/android/Globals.java" target-dir="src/cl/entel/plugins/digital" />
     <source-file src="src/android/Connection.java" target-dir="src/cl/entel/plugins/digital" />
     <source-file src="src/android/connection.xml" target-dir="res/layout"/>
+    <source-file src="src/android/Capture.java" target-dir="src/cl/entel/plugins/digital" />
+    <source-file src="src/android/capture.xml" target-dir="res/layout"/>
 
 
 

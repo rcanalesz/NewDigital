@@ -40,10 +40,16 @@ public class Digital extends CordovaPlugin {
 
     private static final String TAG = "DIGITAL";
 
-    private final int GENERAL_ACTIVITY_RESULT = 1;
+    private static final int FIRST_CHECK = 1;
+    private static final int SECOND_SCAN = 2;
+
+
+
     private static final String ACTION_USB_PERMISSION = "com.digitalpersona.uareu.dpfpddusbhost.USB_PERMISSION";
     
-    private byte[] byteArray;
+    private byte[] byteArray;    
+    private Bitmap bmp;
+
     private CallbackContext callbackContext = null;
 
     private String m_sn = "";
@@ -74,7 +80,22 @@ public class Digital extends CordovaPlugin {
 
 
             Intent i = new Intent(context, Connection.class);
-            this.cordova.getActivity().startActivityForResult(i, 1);
+            this.cordova.getActivity().startActivityForResult(i, FIRST_CHECK);
+
+            return true;
+        }
+        
+        else if("capture".equals(action)){
+            callbackContext = newCallbackContext;
+            cordova.setActivityResultCallback (this);
+
+            Log.i(TAG, "capture");
+
+
+            Intent i = new Intent(context, Capture.class); 
+            intent.putExtra("SerialNumber",m_sn);
+            this.cordova.getActivity().startActivityForResult(i, SECOND_SCAN);
+
 
             return true;
         }
@@ -109,18 +130,10 @@ public class Digital extends CordovaPlugin {
 
 
 
-
-
-
-
-
-
         switch (requestCode) {
-		case GENERAL_ACTIVITY_RESULT:
-				
+		case FIRST_CHECK:
             if((m_deviceName != null && !m_deviceName.isEmpty()) && (m_sn != null && !m_sn.isEmpty()) )
             {
-                
                 try {
                     Context applContext = cordova.getActivity().getApplicationContext();
                     m_reader = Globals.getInstance().getReader(m_sn, applContext);
@@ -141,20 +154,22 @@ public class Digital extends CordovaPlugin {
                     {
                         CheckDevice();
                     }
-                    
-
                 } catch (UareUException e1) {
                     displayReaderNotFound();
                 }
                 catch (DPFPDDUsbException e) {
                     displayReaderNotFound();
                 }
-
-
             } else { 
                 displayReaderNotFound();
-            }
-			
+            }			
+			break;
+
+        case SECOND_SCAN:
+            byteArray = getIntent().getByteArrayExtra("bitmap");
+            Log.i(LOG_TAG,"byteArray: "+byteArray);
+            bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                		
 			break;
 		}
 
@@ -167,6 +182,12 @@ public class Digital extends CordovaPlugin {
 
 
     }
+
+
+
+
+
+
 
     private void displayReaderNotFound()
 	{
@@ -192,10 +213,6 @@ public class Digital extends CordovaPlugin {
 		AlertDialog alertDialog = alertDialogBuilder.create();
 		alertDialog.show();		
 	}
-
-
-
-
     protected void CheckDevice() {
 		try {
 			m_reader.Open(Priority.EXCLUSIVE);
@@ -213,11 +230,6 @@ public class Digital extends CordovaPlugin {
 		}
 
 	}
-
-
-
-
-
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
 	    public void onReceive(Context context, Intent intent) {
 	    	String action = intent.getAction();
