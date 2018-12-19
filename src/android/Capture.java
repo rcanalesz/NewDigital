@@ -47,12 +47,21 @@ public class Capture extends Activity {
 
 
         String package_name = getApplication().getPackageName();
-        setContentView(getApplication().getResources().getIdentifier("connection", "layout", package_name));
+        setContentView(getApplication().getResources().getIdentifier("capture", "layout", package_name));
         //setContentView(R.layout.activity_check_fingerprint);
+
+
+
+
+
 
         int image_view_id = getApplication().getResources().getIdentifier("bitmap_image", "id", package_name);
         m_imgView = (ImageView) findViewById(image_view_id);
         //m_imgView = (ImageView) findViewById(R.id.bitmap_image);
+
+
+
+
 
 
         Log.i(LOG_TAG, "IMG VIEW ID : -- "  + Integer.toString(image_view_id) );
@@ -62,6 +71,15 @@ public class Capture extends Activity {
         else { Log.i(LOG_TAG,"IMGVIEW not null"); }
 
         
+
+
+
+
+
+
+
+
+
         m_bitmap = Globals.GetLastBitmap();
         //if (m_bitmap == null) m_bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.black);
         
