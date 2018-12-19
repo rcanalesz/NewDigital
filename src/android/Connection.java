@@ -58,7 +58,10 @@ public class Connection extends Activity {
 			i.putExtra("device_name", (nSize == 0 ? "" : readers.get(0).GetDescription().name));
 			setResult(Activity.RESULT_OK, i);					
 //			setResult(Activity.RESULT_OK, new Intent().putExtra("serial_number", (nSize == 0 ? "" : readers.get(0).GetDescription().serial_number)));
-			finish();         	
+			
+            Log.i(TAG, "ABOUT TO FINISH CONNECTION ACTIVITY");
+
+            finish();         	
         }
     }
     
