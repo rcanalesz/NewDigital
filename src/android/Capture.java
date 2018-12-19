@@ -48,11 +48,15 @@ public class Capture extends Activity {
 
         String package_name = getApplication().getPackageName();
         setContentView(getApplication().getResources().getIdentifier("connection", "layout", package_name));
-   
+        //setContentView(R.layout.activity_check_fingerprint);
 
-
-        m_imgView = (ImageView) findViewById(getApplication().getResources().getIdentifier("bitmap_image", "id", package_name));
+        int image_view_id = getApplication().getResources().getIdentifier("bitmap_image", "id", package_name);
+        m_imgView = (ImageView) findViewById(image_view_id);
         //m_imgView = (ImageView) findViewById(R.id.bitmap_image);
+
+
+        Log.i(LOG_TAG, "IMG VIEW ID : -- " Integer.toString(image_view_id) );
+
 
         if(m_imgView == null) { Log.i(LOG_TAG,"IMGVIEW null"); }
         else { Log.i(LOG_TAG,"IMGVIEW not null"); }
