@@ -186,7 +186,7 @@ public class Capture extends Activity {
                                 break;
                             case GOOD:
                                 m_text_conclusion.setText("Good Fingerprint");
-                                //m_reset = false;
+                                m_reset = false;
                                 //compressImage();
                                 break;
                             default:
