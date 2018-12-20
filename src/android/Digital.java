@@ -124,14 +124,14 @@ public class Digital extends CordovaPlugin {
 			return;
 		}
 
-        
-		
-
-
-
 
         switch (requestCode) {
 		case FIRST_CHECK:
+
+            if(resultCode != Activity.RESULT_OK){
+                displayReaderNotFound();
+            }
+
             Globals.ClearLastBitmap();
 
             m_sn = (String) data.getExtras().get("serial_number");
@@ -170,29 +170,33 @@ public class Digital extends CordovaPlugin {
 			break;
 
         case SECOND_SCAN:
-            Log.i(TAG, "RESUUUULT OF SCAN");
+        
+            Log.i(TAG, "ON RESULT OF SCAN");
 
+            if(resultCode == Activity.RESULT_OK){
+                Log.i(TAG, "RESULT OF SCAN STATUS - OK");
+                byteArray = data.getByteArrayExtra("bytearray");
+                Log.i(TAG,"byteArray: "+byteArray);
 
-            byteArray = data.getByteArrayExtra("bytearray");
-            Log.i(TAG,"byteArray: "+byteArray);
+                String encoded = encode(byteArray);
 
+                if(encoded != null){
+                    Log.i(TAG, "got b64 new");
+                    Log.i(TAG, encoded);
 
-            String encoded = encode(byteArray);
-
-            if(encoded != null){
-                Log.i(TAG, "got b64 new");
-                Log.i(TAG, encoded);
-
-                PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, encoded);            
+                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, encoded);            
+                    callbackContext.sendPluginResult(pluginResult);
+                } else{
+                    PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, "Error on image");
+                    callbackContext.sendPluginResult(pluginResult);
+                }               
+            }else{
+                Log.i(TAG, "RESULT OF SCAN STATUS - FAILED");
+                PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, "Error on Reader");
                 callbackContext.sendPluginResult(pluginResult);
+                
             }
 
-            
-
-            //bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
-            
-                		
 			break;
 		}
 

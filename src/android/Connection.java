@@ -69,7 +69,7 @@ public class Connection extends Activity {
     public void onBackPressed() {	
 
 		Intent i = new Intent();
-		setResult(Activity.RESULT_OK, i);										
+		setResult(Activity.RESULT_CANCELED, i);										
 		finish();
     }
 
