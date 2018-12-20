@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.digitalpersona.uareu.Fmd;
+import com.digitalpersona.uareu.Engine;
 import com.digitalpersona.uareu.Reader;
 import com.digitalpersona.uareu.Fid;
 import com.digitalpersona.uareu.Reader.Priority;
@@ -28,7 +30,12 @@ public class Capture extends Activity {
     private Button m_back;
     private String m_sn = "";
     private String m_deviceName = "";
+    private String m_enginError = "";
 
+    private Fmd m_fmd1 = null;
+
+
+    private Engine m_engine = null;
     private Reader m_reader = null;
     private Bitmap m_bitmap = null;
     private ImageView m_imgView;
@@ -97,6 +104,7 @@ public class Capture extends Activity {
             Context applContext = getApplicationContext();
             m_reader = Globals.getInstance().getReader(m_sn, applContext);
             m_reader.Open(Priority.EXCLUSIVE);
+            m_engine = UareUGlobal.GetEngine(); 
         } catch (Exception e)
         {
             Log.i(LOG_TAG,"error: "+e);
@@ -114,8 +122,12 @@ public class Capture extends Activity {
             m_imgView.setImageBitmap(m_bitmap);
             m_imgView.invalidate();
 
-            if (cap_result != null){
-
+            if(!m_enginError.isEmpty())
+			{
+                m_text_conclusion.setText("Engine: " + m_enginError);			        	    		 
+			}
+            else if (cap_result != null)
+            {
                 if (cap_result.quality != null){
 
                     switch(cap_result.quality){
@@ -193,24 +205,47 @@ public class Capture extends Activity {
             @Override
             public void run()
             {
-                try 
+                m_reset = false;
+                while (!m_reset)
                 {
-                    m_reset = false;
-                    while (!m_reset)
+                    try 
                     {
                         cap_result = m_reader.Capture(Fid.Format.ANSI_381_2004, Reader.ImageProcessing.IMG_PROC_DEFAULT, 500, -1);
                         // an error occurred
                         if (cap_result == null || cap_result.image == null) continue;
-                            // save bitmap image locally
-                            m_bitmap = Globals.GetBitmapFromRaw(cap_result.image.getViews()[0].getImageData(), cap_result.image.getViews()[0].getWidth(), cap_result.image.getViews()[0].getHeight());
+                        // save bitmap image locally
+                        m_bitmap = Globals.GetBitmapFromRaw(cap_result.image.getViews()[0].getImageData(), cap_result.image.getViews()[0].getWidth(), cap_result.image.getViews()[0].getHeight());
+                    
+                    } catch (Exception e)
+                    {
+                        Log.w(LOG_TAG, "error during capture: " + e.toString());
+                        m_sn = "";
+                        m_deviceName = "";
+                        onBackPressed();
                     }
-                } catch (Exception e)
-                {
-                    Log.w("UareUSampleJava", "error during capture: " + e.toString());
-                    m_sn = "";
-                    m_deviceName = "";
-                    onBackPressed();
+
+
+                    try {
+						m_enginError = "";
+
+                        // save bitmap image locally
+                        m_bitmap = Globals.GetBitmapFromRaw(cap_result.image.getViews()[0].getImageData(), cap_result.image.getViews()[0].getWidth(), cap_result.image.getViews()[0].getHeight());
+                        m_fmd1 = m_engine.CreateFmd(cap_result.image, Fmd.Format.ANSI_378_2004);
+								
+					} catch (Exception e)
+					{
+						m_enginError = e.toString();
+						Log.w(LOG_TAG, "Engine error: " + e.toString());
+					}
+
                 }
+
+
+
+
+
+
+
             }
         }).start();
 
