@@ -183,16 +183,26 @@ public class Digital extends CordovaPlugin {
                 Log.i(TAG,"imageBase64: "+imageBase64);
                 Log.i(TAG,"wsqBase64: "+wsqBase64);
 
-                JSONObject json = new JSONObject(); 
-                json.put("imageBase64", imageBase64);
-                json.put("wsqBase64", wsqBase64);
+                try
+                {
+                    JSONObject json = new JSONObject(); 
+                    json.put("imageBase64", imageBase64);
+                    json.put("wsqBase64", wsqBase64);
 
-                String message = json.toString();
+                    String message = json.toString();
 
-                Log.i(TAG,"message: "+message);                
+                    Log.i(TAG,"message: "+message);                
 
-                PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, message );            
-                callbackContext.sendPluginResult(pluginResult);
+                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, message );            
+                    callbackContext.sendPluginResult(pluginResult);
+                }
+                catch (Exception e)‏
+                {
+                    Log.i(TAG, "RESULT OF SCAN STATUS - FAILED");
+                    PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, "Error on image JSON");
+                    callbackContext.sendPluginResult(pluginResult);
+                }
+                
                              
             }else{
                 Log.i(TAG, "RESULT OF SCAN STATUS - FAILED");
