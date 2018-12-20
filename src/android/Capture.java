@@ -28,7 +28,7 @@ import java.io.ByteArrayOutputStream;
 
 public class Capture extends Activity {
 
-    private String flag_HasCheckedImage = false;
+    private boolean flag_HasCheckedImage = false;
 
     private Button m_back;
     private String m_sn = "";
