@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -15,16 +16,23 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
+import android.graphics.Canvas;
+
 import com.digitalpersona.uareu.Fmd;
 import com.digitalpersona.uareu.Engine;
 import com.digitalpersona.uareu.Reader;
 import com.digitalpersona.uareu.Fid;
 import com.digitalpersona.uareu.Reader.Priority;
 import com.digitalpersona.uareu.UareUGlobal;
+import com.digitalpersona.uareu.Compression.CompressionAlgorithm;
+import com.digitalpersona.uareu.dpfj.CompressionImpl;
 
 import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
+
+import java.nio.ByteBuffer;
 
 public class Capture extends Activity {
 
@@ -97,10 +105,12 @@ public class Capture extends Activity {
         if(m_sn != null){
             capture();
         }else{
+            Intent i = new Intent();
+            i.putExtra("message", "No serial number provided");
+		    setResult(Activity.RESULT_CANCELED, i);		
             finish();
         }
     }
-        //initializeActivity();
 
     private void capture(){
         // initiliaze dp sdk
@@ -115,6 +125,11 @@ public class Capture extends Activity {
             Log.i(LOG_TAG, "error during init of reader");
             m_sn = "";
             m_deviceName = "";
+
+
+            Intent i = new Intent();
+            i.putExtra("message", "Error on capturing image");
+		    setResult(Activity.RESULT_CANCELED, i);		
             finish();
             return;
         }
@@ -266,19 +281,47 @@ public class Capture extends Activity {
     }
 
     private void compressImage() {
+
+
+        //IMAGE IN B64
+        //Grab bitmap stored in imageview and convert it as a bytearray
         Bitmap bm = ((BitmapDrawable) m_imgView.getDrawable()).getBitmap();
         if(bm == null){
             Log.i(LOG_TAG,"bm null");
         }
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.PNG, 100, bStream);
-        byte[] byteArray = bStream.toByteArray();
-        Intent i = new Intent();
-        Log.i(LOG_TAG,"byteArray: "+byteArray);
+        byte[] imageByteArray = bStream.toByteArray();
+        String imageBase64 = encode(imageByteArray);
+        
+        
+        //WSQ IN B64
+        //grab capture result and convert it into wsq as bytearray
+        Fid ISOFid = cap_result.image;
+        byte[] wsqRawCompress = processImage(ISOFid.getViews()[0].getData(),ISOFid.getViews()[0].getWidth(), ISOFid.getViews()[0].getHeight());
+		String wsqBase64 = encode(wsqRawCompress);					
 
-        i.putExtra("bytearray", byteArray);
-        setResult(Activity.RESULT_OK, i);
-        finish();
+        if(imageBase64 != null && wsqBase64 != null){
+
+            Intent i = new Intent();
+            Log.i(LOG_TAG,"imageBase64: "+imageBase64);
+            Log.i(LOG_TAG,"wsqBase64: "+wsqBase64);
+
+
+            i.putExtra("imageBase64", imageBase64);
+            i.putExtra("wsqBase64", wsqBase64);
+
+            setResult(Activity.RESULT_OK, i);
+            finish();
+
+        }else{
+
+            Intent i = new Intent();
+            i.putExtra("message", "Image conversion failed");
+		    setResult(Activity.RESULT_CANCELED, i);		
+            finish();
+
+        }        
     }
 
 
@@ -300,10 +343,151 @@ public class Capture extends Activity {
 		}		
 		
 		Intent i = new Intent();
-		i.putExtra("serial_number", m_sn);
-		i.putExtra("device_name", m_deviceName);
+        i.putExtra("message", "Button back");
 		setResult(Activity.RESULT_CANCELED, i);							
     	finish();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private String encode(byte[] d) {
+        if (d == null) {
+            return null;
+        }
+        int idx;
+        byte[] data = new byte[(d.length + 2)];
+        System.arraycopy(d, 0, data, 0, d.length);
+        byte[] dest = new byte[((data.length / 3) * 4)];
+        int sidx = 0;
+        int didx = 0;
+        while (sidx < d.length) {
+            dest[didx] = (byte) ((data[sidx] >>> 2) & 63);
+            dest[didx + 1] = (byte) (((data[sidx + 1] >>> 4) & 15) | ((data[sidx] << 4) & 63));
+            dest[didx + 2] = (byte) (((data[sidx + 2] >>> 6) & 3) | ((data[sidx + 1] << 2) & 63));
+            dest[didx + 3] = (byte) (data[sidx + 2] & 63);
+            sidx += 3;
+            didx += 4;
+        }
+        for (idx = 0; idx < dest.length; idx++) {
+            if (dest[idx] < (byte) 26) {
+                dest[idx] = (byte) (dest[idx] + 65);
+            } else if (dest[idx] < (byte) 52) {
+                dest[idx] = (byte) ((dest[idx] + 97) - 26);
+            } else if (dest[idx] < (byte) 62) {
+                dest[idx] = (byte) ((dest[idx] + 48) - 52);
+            } else if (dest[idx] < (byte) 63) {
+                dest[idx] = (byte) 43;
+            } else {
+                dest[idx] = (byte) 47;
+            }
+        }
+        for (idx = dest.length - 1; idx > (d.length * 4) / 3; idx--) {
+            dest[idx] = (byte) 61;
+        }
+        return new String(dest);
+    }
+
+
+    public byte[] processImage(byte[] img, int width, int height) {
+            
+        Bitmap bmWSQ = null;
+        bmWSQ = getBitmapAlpha8FromRaw(img, width, height);
+
+        byte[] arrayT = null;
+
+        Bitmap redimWSQ = overlay(bmWSQ);
+        int numOfbytes = redimWSQ.getByteCount();
+        ByteBuffer buffer = ByteBuffer.allocate(numOfbytes);
+        redimWSQ.copyPixelsToBuffer(buffer);
+        arrayT = buffer.array();
+
+        int v1 = 1;
+        for (int i = 0; i < arrayT.length; i++) {
+            if (i < 40448) { // 79
+                    arrayT[i] = (byte) 255;
+            } else if (i >= 40448 && i <= 221696) {
+
+                    if (v1 < 132) {
+                            arrayT[i] = (byte) 255;
+                    } else if (v1 > 382) {
+                            arrayT[i] = (byte) 255;
+                    }
+                    if (v1 == 512) {
+                            v1 = 0;
+                    }
+                    v1++;
+            } else if (i > 221696) { // 433
+                    arrayT[i] = (byte) 255;
+            }
+
+        }
+
+        CompressionImpl comp = new CompressionImpl();
+        try {
+            comp.Start();
+            comp.SetWsqBitrate(500, 0);
+            
+            byte[] rawCompress = comp.CompressRaw(arrayT, redimWSQ.getWidth(), redimWSQ.getHeight(), 500, 8,
+                            CompressionAlgorithm.COMPRESSION_WSQ_NIST);
+            
+            comp.Finish();
+            
+            Log.i("Util", "getting WSQ...");
+
+            return rawCompress;
+            
+        } catch (UareUException e) {
+            Log.e("Util", "UareUException..." + e);
+            return null;
+        } catch (Exception e) {
+            Log.e("Util", "Exception..." + e);
+            return null;
+        }
+
+      
+            
+    }
+
+
+    private Bitmap overlay(Bitmap bmp) {
+            Bitmap bmOverlay = Bitmap.createBitmap(512, 512, Config.ALPHA_8);
+            Canvas canvas = new Canvas(bmOverlay);
+            canvas.drawBitmap(bmp, 512 / 2 - bmp.getWidth() / 2, 512 / 2 - bmp.getHeight() / 2, null);
+            canvas.save();
+            return bmOverlay;
+    }
+	   
+    private Bitmap getBitmapAlpha8FromRaw(byte[] Src, int width, int height) { 
+            byte [] Bits = new byte[Src.length];
+            int i = 0;
+            for(i=0;i<Src.length;i++)
+            {
+                Bits[i] = Src[i];
+            }
+        
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
+            bitmap.copyPixelsFromBuffer(ByteBuffer.wrap(Bits));
+        
+            return bitmap;
     }
 
  }

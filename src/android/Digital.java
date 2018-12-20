@@ -7,6 +7,7 @@ import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 import com.digitalpersona.uareu.Reader;
@@ -175,21 +176,24 @@ public class Digital extends CordovaPlugin {
 
             if(resultCode == Activity.RESULT_OK){
                 Log.i(TAG, "RESULT OF SCAN STATUS - OK");
-                byteArray = data.getByteArrayExtra("bytearray");
-                Log.i(TAG,"byteArray: "+byteArray);
+                
+                String imageBase64 = data.getStringExtra("imageBase64");
+                String wsqBase64 = data.getStringExtra("wsqBase64");
 
-                String encoded = encode(byteArray);
+                Log.i(TAG,"imageBase64: "+imageBase64);
+                Log.i(TAG,"wsqBase64: "+wsqBase64);
 
-                if(encoded != null){
-                    Log.i(TAG, "got b64 new");
-                    Log.i(TAG, encoded);
+                JSONObject json = new JSONObject(); 
+                json.put("imageBase64", imageBase64);
+                json.put("wsqBase64", wsqBase64);
 
-                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, encoded);            
-                    callbackContext.sendPluginResult(pluginResult);
-                } else{
-                    PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, "Error on image");
-                    callbackContext.sendPluginResult(pluginResult);
-                }               
+                String message = json.toString();
+
+                Log.i(TAG,"message: "+message);                
+
+                PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, message );            
+                callbackContext.sendPluginResult(pluginResult);
+                             
             }else{
                 Log.i(TAG, "RESULT OF SCAN STATUS - FAILED");
                 PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, "Error on Reader");
@@ -290,42 +294,6 @@ public class Digital extends CordovaPlugin {
 
 
 
-    private String encode(byte[] d) {
-        if (d == null) {
-            return null;
-        }
-        int idx;
-        byte[] data = new byte[(d.length + 2)];
-        System.arraycopy(d, 0, data, 0, d.length);
-        byte[] dest = new byte[((data.length / 3) * 4)];
-        int sidx = 0;
-        int didx = 0;
-        while (sidx < d.length) {
-            dest[didx] = (byte) ((data[sidx] >>> 2) & 63);
-            dest[didx + 1] = (byte) (((data[sidx + 1] >>> 4) & 15) | ((data[sidx] << 4) & 63));
-            dest[didx + 2] = (byte) (((data[sidx + 2] >>> 6) & 3) | ((data[sidx + 1] << 2) & 63));
-            dest[didx + 3] = (byte) (data[sidx + 2] & 63);
-            sidx += 3;
-            didx += 4;
-        }
-        for (idx = 0; idx < dest.length; idx++) {
-            if (dest[idx] < (byte) 26) {
-                dest[idx] = (byte) (dest[idx] + 65);
-            } else if (dest[idx] < (byte) 52) {
-                dest[idx] = (byte) ((dest[idx] + 97) - 26);
-            } else if (dest[idx] < (byte) 62) {
-                dest[idx] = (byte) ((dest[idx] + 48) - 52);
-            } else if (dest[idx] < (byte) 63) {
-                dest[idx] = (byte) 43;
-            } else {
-                dest[idx] = (byte) 47;
-            }
-        }
-        for (idx = dest.length - 1; idx > (d.length * 4) / 3; idx--) {
-            dest[idx] = (byte) 61;
-        }
-        return new String(dest);
-    }
 
 
 
