@@ -275,7 +275,8 @@ public class Capture extends Activity {
         byte[] byteArray = bStream.toByteArray();
         Intent i = new Intent();
         Log.i(LOG_TAG,"byteArray: "+byteArray);
-        i.putExtra("bitmap", byteArray);
+
+        i.putExtra("bytearray", byteArray);
         setResult(Activity.RESULT_OK, i);
         finish();
     }

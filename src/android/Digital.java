@@ -124,7 +124,7 @@ public class Digital extends CordovaPlugin {
 			return;
 		}
 
-        Globals.ClearLastBitmap();
+        
 		
 
 
@@ -132,6 +132,8 @@ public class Digital extends CordovaPlugin {
 
         switch (requestCode) {
 		case FIRST_CHECK:
+            Globals.ClearLastBitmap();
+
             m_sn = (String) data.getExtras().get("serial_number");
             m_deviceName = (String) data.getExtras().get("device_name");
             if((m_deviceName != null && !m_deviceName.isEmpty()) && (m_sn != null && !m_sn.isEmpty()) )
@@ -168,11 +170,14 @@ public class Digital extends CordovaPlugin {
 			break;
 
         case SECOND_SCAN:
-            //byteArray = data.getByteArrayExtra("bitmap");
-            //Log.i(TAG,"byteArray: "+byteArray);
+            Log.i(TAG, "RESUUUULT OF SCAN");
+
+
+            byteArray = data.getByteArrayExtra("bytearray");
+            Log.i(TAG,"byteArray: "+byteArray);
             //bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
-            Log.i(TAG, "RESUUUULT OF SCAN");
+            
                 		
 			break;
 		}
