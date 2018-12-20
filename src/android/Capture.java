@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.digitalpersona.uareu.UareUException;
+
 import android.graphics.Canvas;
 
 import com.digitalpersona.uareu.Fmd;
