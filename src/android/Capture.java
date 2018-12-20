@@ -20,6 +20,7 @@ import com.digitalpersona.uareu.Engine;
 import com.digitalpersona.uareu.Reader;
 import com.digitalpersona.uareu.Fid;
 import com.digitalpersona.uareu.Reader.Priority;
+import com.digitalpersona.uareu.UareUGlobal;
 
 import org.w3c.dom.Text;
 
