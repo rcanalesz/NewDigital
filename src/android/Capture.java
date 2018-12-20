@@ -280,4 +280,29 @@ public class Capture extends Activity {
         finish();
     }
 
+
+
+
+
+    @Override
+    public void onBackPressed() {
+		try {
+			m_reset = false;
+			try { m_reader.CancelCapture(); } catch (Exception e) {}
+			m_reader.Close();
+
+			// re-enable camera
+			Globals.getInstance().enableCamera();  
+		} catch (Exception e) 
+		{	
+			Log.w(LOG_TAG, "error during reader shutdown");
+		}		
+		
+		Intent i = new Intent();
+		i.putExtra("serial_number", m_sn);
+		i.putExtra("device_name", m_deviceName);
+		setResult(Activity.RESULT_OK, i);							
+    	finish();
+    }
+
  }
