@@ -4,6 +4,8 @@ android {
 
         minSdkVersion 15
         targetSdkVersion 22
+
+        multiDexEnabled true
     }
 
    packagingOptions {
