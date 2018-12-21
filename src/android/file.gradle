@@ -14,6 +14,7 @@ repositories{
 
 dependencies {
    implementation(name:'dpuareu', ext:'jar')
+   compile 'com.android.support:multidex:1.0.3'
 }
 
 
