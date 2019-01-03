@@ -3,7 +3,7 @@ android {
         applicationId "com.outsystemsenterprise.entel.PEMayorista"
 
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 26
 
         multiDexEnabled true
     }

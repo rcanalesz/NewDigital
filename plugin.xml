@@ -17,7 +17,7 @@
       </feature>
 
       <preference name="android-minSdkVersion" value="14"/>
-      <preference name="android-targetSdkVersion" value="22"/>
+      <preference name="android-targetSdkVersion" value="26"/>
     </config-file>
 
 
